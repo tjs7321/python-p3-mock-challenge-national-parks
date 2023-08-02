@@ -55,6 +55,8 @@ comments describing your progress.
 Write the following methods in the classes in the files provided. Feel free to
 build out any helper methods if needed.
 
+_Carefully consider where to create your Single Source of Truth._
+
 ### Initializers and Properties
 
 #### Visitor
@@ -62,7 +64,7 @@ build out any helper methods if needed.
 - `Visitor __init__(self, name)`
   - Visitor should be initialized with a name
 - `Visitor property name`
-  - Return name
+  - Should return the visitor's name
   - Names must be of type `str`
   - Names must be between 1 and 15 characters, inclusive
   - `raise Exception` if setter fails
@@ -72,8 +74,8 @@ build out any helper methods if needed.
 - `NationalPark __init__(self, name)`
   - national_parks should be initialized with a name, as a string
 - `NationalPark property name`
-  - Returns the NationalPark's name
-  - Should not be able to change after the NationalPark is created
+  - Returns a given national_park's name
+  - Should not be able to change after the national_park is created
   - `raise Exception` if setter fails
   - _hint: hasattr()_
 
@@ -97,19 +99,19 @@ build out any helper methods if needed.
 
 #### Visitors
 
-- `Visitor trips()`
+- `Visitor trips(self)`
   - Returns a list of all trips for that visitor
   - The list of trips must contain type `Trip`
-- `Visitor national_parks()`
-  - Returns a **unique** list of all parks who that visitor has visited.
+- `Visitor national_parks(self)`
+  - Returns a **unique** list of all parks which that visitor has visited.
   - The list of national parks must contain type `NationalPark` 
 
 #### NationalPark
 
-- `NationalPark trips()`
+- `NationalPark trips(self)`
   - Returns a list of all trips planned for this national park
   - The list of trips must contain type `trip`
-- `NationalPark visitors()`
+- `NationalPark visitors(self)`
   - Returns a **unique** list of all visitors a national park has recieved
   - The list of visitors must contain type `Visitor`
 
@@ -117,7 +119,9 @@ build out any helper methods if needed.
 
 #### National Park
 
-- `NationalPark total_visits()`
+- `NationalPark total_visits(self)`
   - Returns the total number of times that park has been visited
-- `NationalPark best_visitor()`
+- `NationalPark best_visitor(self)`
   - Returns the Visitor who has visited the park the most
+- `NationalPark classmethod most_visited(cls)`
+  - Returns the national_park which has received the most visits
