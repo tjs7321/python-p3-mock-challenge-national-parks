@@ -1,42 +1,43 @@
+from classes.trip import Trip
+
+
 class NationalPark:
+    all = []
 
     def __init__(self, name):
         self.name = name
-        self._trips = []
-        self._visitors = []
+        NationalPark.all.append(self)
 
     @property
     def name(self):
         return self._name
-    
+
     @name.setter
     def name(self, name):
-        if isinstance(name, str) and not hasattr(self, 'name'):
+        if isinstance(name, str) and not hasattr(self, "name"):
             self._name = name
         else:
             raise Exception
-        
-    def trips(self, new_trip=None):
-        from classes.trip import Trip
-        if new_trip and isinstance(new_trip, Trip):
-            self._trips.append(new_trip)
-        return self._trips
-    
-    def visitors(self, new_visitor=None):
-        from classes.visitor import Visitor
-        if new_visitor and isinstance(new_visitor, Visitor) and new_visitor not in self._visitors:
-            self._visitors.append(new_visitor)
-        return self._visitors
-    
+
+    def trips(self):
+        return [trip for trip in Trip.all if trip.national_park == self]
+
+    def visitors(self):
+        return [*set([trip.visitor for trip in self.trips()])]
+
     def total_visits(self):
-        return len(self._trips)
-    
+        return len(self.trips())
+
     def best_visitor(self):
         max_visitor = None
         max_visits = 0
-        for v in self._visitors:
-            v_visits = len([t for t in self._trips if t.visitor == v])
+        for v in self.visitors():
+            v_visits = len([t for t in self.trips() if t.visitor == v])
             if v_visits > max_visits:
                 max_visits = v_visits
                 max_visitor = v
         return max_visitor
+
+    @classmethod
+    def most_visited(cls):
+        return max(cls.all, key=lambda p: p.total_visits())
